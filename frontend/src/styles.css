@@ -1,0 +1,35 @@
+/* Add application styles & imports to this file! */
+
+.bounds {
+    height :800px;
+  }
+  
+  .search {
+    background: red;
+    color:white;
+  }
+  
+  .general {
+    /* background: white; */
+    /* color:blue; */
+  }
+  
+  .info {
+    background: blue;
+    color:white;
+  }
+  
+  .search, .general, .info {
+    padding-top:20px;
+    text-align:center
+  }
+  
+  .content {
+    min-width: 300px;
+    /*height: 400px;*/
+  }
+table {
+    width: 100%;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

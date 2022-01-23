@@ -1,0 +1,22 @@
+<div class="layout">
+    <button mat-button aria-label="Example icon-button with heart icon">
+        <mat-icon>navigate_before</mat-icon>
+    </button>
+
+    <div>
+        <img style="max-width: 10rem;" src="https://img.pokemondb.net/artwork/large/bulbasaur.jpg"/>
+        <mat-chip-list>
+            <mat-chip
+                *ngFor="let type of types" 
+                    [style.background-color]="type.bgColor"
+                    [style.color]="type.color">
+                {{type.name}}
+            </mat-chip>
+        </mat-chip-list>
+    </div>
+
+    <button mat-button aria-label="Example icon-button with heart icon">
+        <mat-icon>navigate_next</mat-icon>
+    </button>
+</div>
+

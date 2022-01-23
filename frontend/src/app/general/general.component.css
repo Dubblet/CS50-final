@@ -1,0 +1,9 @@
+.layout {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+}
+
+mat-icon {
+    transform: scale(2);
+}
