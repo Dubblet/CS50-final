@@ -18,6 +18,10 @@ import { InfoComponent } from './info/info.component';
 import { StatsComponent } from './info/stats/stats.component';
 import { MovesComponent } from './info/moves/moves.component';
 import { TmsComponent } from './info/tms/tms.component';
+import { EvolutionsComponent } from './info/evolutions/evolutions.component';
+import { BioComponent } from './info/bio/bio.component';
+import { DexComponent } from './info/dex/dex.component';
+import { AbilitiesComponent } from './info/abilities/abilities.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,11 @@ import { TmsComponent } from './info/tms/tms.component';
     InfoComponent,
     StatsComponent,
     MovesComponent,
-    TmsComponent
+    TmsComponent,
+    EvolutionsComponent,
+    BioComponent,
+    DexComponent,
+    AbilitiesComponent
   ],
   imports: [
     BrowserModule,

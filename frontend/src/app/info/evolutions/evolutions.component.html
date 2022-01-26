@@ -1,0 +1,32 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+  
+    <!-- Dex Number Column -->
+    <ng-container matColumnDef="dexnum">
+      <th mat-header-cell *matHeaderCellDef> Dex # </th>
+      <td mat-cell *matCellDef="let element"> {{element.dexnum}} </td>
+    </ng-container>
+
+    <!-- Image Column -->
+    <ng-container matColumnDef="sprite">
+      <th mat-header-cell *matHeaderCellDef>  </th>
+      <td mat-cell *matCellDef="let element"> <img style="max-width: 7rem;" [src]="element.sprite"> </td>
+    </ng-container>
+  
+    <!-- Method Column -->
+    <ng-container matColumnDef="method">
+      <th mat-header-cell *matHeaderCellDef> Evolution Method </th>
+      <td mat-cell *matCellDef="let element"> {{element.method}} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
