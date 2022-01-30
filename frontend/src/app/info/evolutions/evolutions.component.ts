@@ -18,7 +18,7 @@ const ELEMENT_DATA: Evolutions[] = [
   styleUrls: ['./evolutions.component.css']
 })
 export class EvolutionsComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'dexnum', 'sprite', 'method'];
+  displayedColumns: string[] = ['dexnum', 'name', 'sprite', 'method'];
   dataSource = ELEMENT_DATA;
 
   constructor() { }
