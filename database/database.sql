@@ -9,11 +9,13 @@ CREATE TABLE types (
 );
 CREATE TABLE moves (
 	id INTEGER PRIMARY KEY,
+	type_id INTEGER NOT NULL,
 	name TEXT NOT NULL UNIQUE,
 	category INTEGER NOT NULL CHECK (category in (0, 1, 2)),
 	damage INTEGER NOT NULL,
 	accuracy INTEGER NOT NULL,
-	description TEXT NOT NULL
+	description TEXT NOT NULL,
+	FOREIGN KEY(type_id) REFERENCES types(id)
 );
 CREATE TABLE species (
 	id INTEGER PRIMARY KEY,
@@ -39,7 +41,7 @@ CREATE TABLE evolutions (
 	FOREIGN KEY(poke_id) REFERENCES pokemon(id),
 	FOREIGN KEY(evo_poke_id) REFERENCES pokemon(id)
 );
-CREATE TABLE pokemon_move (
+CREATE TABLE pokemon_moves (
 	id INTEGER PRIMARY KEY,
 	poke_id INTEGER NOT NULL,
 	move_id INTEGER NOT NULL,
@@ -49,6 +51,12 @@ CREATE TABLE pokemon_move (
 	tutor INTEGER,
 	FOREIGN KEY(poke_id) REFERENCES pokemon(id),
 	FOREIGN KEY(move_id) REFERENCES moves(id)
+);
+CREATE TABLE pokemon_abilities (
+	id INTEGER PRIMARY KEY,
+	poke_id INTEGER NOT NULL,
+	ability_id INTEGER NOT NULL,
+	FOREIGN KEY(ability_id) REFERENCES abilities(id)
 );
 CREATE TABLE pokemon_stats (
 	id INTEGER PRIMARY KEY,
@@ -66,9 +74,9 @@ CREATE TABLE pokemon_info (
 	poke_id INTEGER NOT NULL,
 	species_id INTEGER NOT NULL,
 	egg1_id INTEGER NOT NULL,
-	egg2_id INTEGER NOT NULL,
+	egg2_id INTEGER,
 	type1_id INTEGER NOT NULL,
-  	type2_id INTEGER NOT NULL,
+  	type2_id INTEGER,
 	height INTEGER NOT NULL,
 	weight INTEGER NOT NULL,
 	gender_ratio NUMBER NOT NULL,
