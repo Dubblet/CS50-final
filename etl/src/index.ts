@@ -9,11 +9,10 @@ const categories: any = {'Status': 0, 'Physical': 1, 'Special': 2};
 
 let pokeMap = new Map<string, Map<string, any>>();
 
-let allPokemon = Showdown.Dex.species.all();
-                                    // .slice(0, 50);
-                                    // .filter(pokemon => pokemon.name.includes('Flab'));
-
-                                    // console.log(allPokemon[0].name.replace(/[é]+/g, "e"));
+let allPokemon = Showdown.Dex.species.all().filter(pokemon => (pokemon.isNonstandard == null || pokemon.isNonstandard == 'Past') && pokemon.forme == "");
+                                        //    .filter(pokemon => pokemon.name == "Floette");
+let pokeCount = allPokemon.length;
+console.log(pokeCount);
 let eggGroups = new Set(Showdown.Dex.species.all()
                                     .map((pokemon) => pokemon.eggGroups)
                                     .reduce((poke1, poke2) => poke1.concat(poke2)));
@@ -26,8 +25,10 @@ var abilities = Showdown.Dex.abilities.all()
                                     .map(x => [x.name, x.desc]);
 var moves = Showdown.Dex.moves.all().filter(x => x.isNonstandard == null || x.isNonstandard == 'Past')
                                     .map(x => [x.name, x.type, x.category, x.basePower, x.accuracy, x.shortDesc]);
-
-// console.log(Showdown.Dex.moves.all().filter(x => x.isNonstandard == 'Past').map(x => x.name));
+moves.push(["Power Shift", "Normal", "Status", 0, 0, "The user swaps its offensive and defensive stats."]);
+// console.log(moves.filter(x => x[0] == 'powershift'));
+// console.log(moves.filter(x => x[0] === 'Power Shift'));
+// console.log(allPokemon.filter(x => x.name.includes("Nido")));
 let scrapers: Array<any> = []
 function parseTbody($:cheerio.Root ,tbody: cheerio.Cheerio) {
     var result = new Array();
@@ -41,10 +42,17 @@ function parseTbody($:cheerio.Root ,tbody: cheerio.Cheerio) {
     return result;
 }
 async function main() {
-    for (var pokemon of allPokemon) {
-        if ((pokemon.isNonstandard == null || pokemon.isNonstandard == 'Past') && pokemon.forme == "") {
-            if (pokemon.name == 'Celestela') {
-                Object.assign(pokemon, { name: 'Celesteela'});
+    console.log("STARTING");
+    var batchAmount = 100;
+    var current = 0;
+    while (current < pokeCount) {
+        for (var pokemon of allPokemon.slice(current, current + batchAmount)) {
+            // console.log(pokemon.name);
+            if (pokemon.name.includes('Flabé')) {
+                Object.assign(pokemon, { name: "Flabebe"});
+            }
+            if (pokemon.prevo.includes('Flabé')) {
+                Object.assign(pokemon, { prevo: "Flabebe"});
             }
             pokeMap.set(pokemon.name, new Map<string, any>());
             pokeMap.get(pokemon.name)
@@ -57,14 +65,12 @@ async function main() {
                 ?.set("weight",    pokemon.weightkg)
                 ?.set("evolution", pokemon.evos)
                 ?.set("egg",       pokemon.eggGroups)
-                // ?.set("gen",       pokemon.gen)
-                //?.set("bst",       pokemon.bst)
                 ?.set("forms",     pokemon.otherFormes)
                 ?.set('prevo',    pokemon.prevo)
                 ?.set('evo',      [pokemon.evoType, pokemon.evoLevel, pokemon.evoCondition, pokemon.evoMove, pokemon.evoItem, pokemon.gender])
-
-                                                                                           // console.log(allPokemon[0].name.replace(/[é]+/g, "e"));
-            const url = encodeURI(`https://pokemondb.net/pokedex/${pokemon.name.replace(/[:. ]+/, "-").replace(/[.'’]/g, "").replace(/[é]+/g, "e")}`);
+            
+            const url = encodeURI(`https://pokemondb.net/pokedex/${pokemon.name.replace(/[:. ]+/, "-").replace(/[.'’]/g, "").toLowerCase()}`);
+            // console.log(url);
             const AxiosInstance = Axios.create();
 
             scrapers.push(AxiosInstance.get(url)
@@ -72,11 +78,19 @@ async function main() {
                     response => {
                         const html = response.data;
                         const $ = Cheerio.load(html);
+                        const dexnum = $('.vitals-table')
+                                            .first()
+                                            .find('tbody tr:nth-child(1) td')
+                                            .text();
+                        // console.log(dexnum);
+                        // console.log(parseInt(dexnum));
+                        const pokemon = { name: Array.from(pokeMap.keys())[parseInt(dexnum) - 1] };
                         const species = $('.vitals-table')
                                             .first()
                                             .find('tbody tr:nth-child(3) td')
                                             .text();
                         pokeMap.get(pokemon.name)?.set('species', species);
+                        // console.log(pokemon.name);
                         allSpecies.add(species);
                         const pokeMoveTables = $('.tabset-moves-game .sv-tabs-panel-list .active table')
                         pokeMoveTables.map((i, table) => {
@@ -124,9 +138,13 @@ async function main() {
                 )
                 .catch(console.error));
         }
+        await Promise.all(scrapers);
+        scrapers = [];
+        current += batchAmount;
+        console.log("Parser at " + current);
     }
-    await Promise.all(scrapers);
     // console.log(pokeMap);
+
     // console.log(pokeMap.get("Bulbasaur")?.get("evo").filter((x: any) => x).length == 0);
     // console.log(pokeMap.get("Bulbasaur")?.get("Moves learnt by level up"));
     // console.log(pokeMap.get("Bulbasaur")?.get("Moves learnt by TM"));
@@ -152,6 +170,7 @@ async function main() {
     // console.log(blah?.get("Move Tutor moves"));
     // var stats = blah?.get("stats");
     // console.log(stats["hp"]);
+    // console.log(pokeMap);
     if(true) {
         var databaseFile = '../database/cs50.db';
         var tempFile = fs.openSync(databaseFile, 'w');
@@ -283,8 +302,6 @@ async function main() {
             })
         })
         pokeMap.forEach((v, k) => {
-            // console.log(v);
-            // console.log(k);
             var pokemon = pokeMap.get(k);
             pokemonInsert.run({
                 name: k,
@@ -383,14 +400,12 @@ async function main() {
             }); 
         });
         pokeMap.forEach((v, k) => {
-            console.log(v);
-            console.log(k);
             var pokemon = pokeMap.get(k);
             var evo = pokemon?.get("evo");
-            if (evo.filter((x: any) => x).length != 0) {
+            if (evo.filter((x: any) => x).length != 0 && pokemon?.get("prevo") != '') {
                 evolutionsInsert.run({
                     dex_num: pokemon?.get("dex_num"),
-                    prevo_name: pokemon?.get("prevo"),
+                    prevo_name: pokemon?.get("prevo").replace("-Galar", ""),
                     evo_type: evo?.[0],
                     lvl: evo?.[1],
                     cond: evo?.[2],
@@ -398,6 +413,7 @@ async function main() {
                 });
             }
         });
+        db.close();
     }
 }
 main();
