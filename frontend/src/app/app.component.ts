@@ -15,7 +15,7 @@ export class AppComponent implements OnInit{
   dexnum = "1".padStart(3, "0");
 
   ngOnInit(): void {
-    this.http.get<any>("http://localhost:8001/cs50/pokemon/1.json?_shape=objects")
+    this.http.get<any>("http://localhost:8001/cs50/pokemon/772.json?_shape=objects")
       .subscribe(response => {
         // console.log(response["rows"]);
         let rows = response["rows"];

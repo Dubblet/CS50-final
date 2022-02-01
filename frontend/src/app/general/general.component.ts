@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 export interface Type {
   name: string;
@@ -11,8 +11,9 @@ export interface Type {
   templateUrl: './general.component.html',
   styleUrls: ['./general.component.css']
 })
-export class GeneralComponent implements OnInit {
-
+export class GeneralComponent {
+  @Input() name!: String
+  parsedName: String = '';
   types: Type[] = [
     {name: 'Grass', bgColor: "green", color: "white"},
     {name: 'Posion', bgColor: "purple", color: "white"},
@@ -20,7 +21,8 @@ export class GeneralComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
+    this.parsedName = this.name.replace(/[:. ]+/, "-").replace(/[.'’]/g, "").toLowerCase();
   }
 
 }
