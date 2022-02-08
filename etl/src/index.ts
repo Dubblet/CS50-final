@@ -388,7 +388,7 @@ async function main() {
                 type_name2: pokemon?.get("type")?.[1],
                 height: pokemon?.get("height"),
                 weight: pokemon?.get("weight"),
-                gender_ratio: pokemon?.get("gender")['M'] + (pokemon?.get("gender")['F'] * 0.1)
+                gender_ratio: pokemon?.get("gender")['M'] + '.' + (pokemon?.get("gender")['F'] * 0.1)
             });
 
             pokemon?.get("dex-entries").forEach((entry: Array<any>) => {
