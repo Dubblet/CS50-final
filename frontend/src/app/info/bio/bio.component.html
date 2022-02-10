@@ -6,7 +6,13 @@
     <!-- Classification Column -->
     <ng-container matColumnDef="classification">
       <th mat-header-cell *matHeaderCellDef> Classification </th>
-      <td mat-cell *matCellDef="let element"> {{element.classification}} Pokemon </td>
+      <td mat-cell *matCellDef="let element"> {{element.classification}} </td>
+    </ng-container>
+
+    <!-- Egg Group Column -->
+    <ng-container matColumnDef="egg_groups">
+      <th mat-header-cell *matHeaderCellDef> Egg Groups </th>
+      <td mat-cell *matCellDef="let element"> {{element.egg_groups}} </td>
     </ng-container>
   
     <!-- Height Column -->

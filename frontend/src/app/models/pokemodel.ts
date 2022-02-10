@@ -10,7 +10,7 @@ export class PokeModel {
     // dex_entries: string,
     // evo_data: string
 
-    public dexnum: number = 1;
+    public dex_num: number = 1;
     public name: string = "Bulbasaur";
     public types: string = "Grass,Poison";
     public classification: string = "Seed Pokémon";

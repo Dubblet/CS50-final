@@ -48,7 +48,6 @@ export class GeneralComponent {
       .replace(/[.'’]/g, "")
       .toLowerCase();
 
-
     this.types = this.model.types
       .split(',')
       .map((poketype) => PokeTypeInfo[poketype]);

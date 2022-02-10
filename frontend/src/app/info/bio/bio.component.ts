@@ -1,28 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { PokeModel } from 'src/app/models/pokemodel';
 
 export interface Bio {
   classification: string;
+  egg_groups: string;
   height: number;
   weight: number;
-  gender_ratio: string;
+  gender_ratio: number;
 }
-
-const ELEMENT_DATA: Bio[] = [
-  {classification: 'Seed', height: 0.7, weight: 6.9, gender_ratio: 'M - 88.14% / F - 11.86%'},
-];
 
 @Component({
   selector: 'poke-bio',
   templateUrl: './bio.component.html',
   styleUrls: ['./bio.component.css']
 })
-export class BioComponent implements OnInit {
-  displayedColumns: string[] = ['classification', 'height', 'weight', 'gender_ratio'];
-  dataSource = ELEMENT_DATA;
+export class BioComponent {
+  @Input() model = new PokeModel();
+  
+  displayedColumns: string[] = ['classification', 'egg_groups', 'height', 'weight', 'gender_ratio'];
+  dataSource: Bio[] = [];
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
+    this.dataSource = [{
+      classification: this.model.classification,
+      egg_groups: this.model.egg_groups,
+      height: this.model.height,
+      weight: this.model.weight,
+      gender_ratio: this.model.gender_ratio
+    }];
   }
 
 }

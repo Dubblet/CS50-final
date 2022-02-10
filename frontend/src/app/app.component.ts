@@ -10,11 +10,6 @@ import { PokeModel } from './models/pokemodel';
 export class AppComponent implements OnInit{
   constructor(private http: HttpClient) {}
 
-  title = 'frontend';
-  pokeId = 1;
-  name = 'Pikachu';
-  dexnum = "1".padStart(3, "0");
-
   model = new PokeModel();
 
   ngOnInit(): void {
@@ -26,28 +21,3 @@ export class AppComponent implements OnInit{
   }
 
 }
-
-// {
-//   "database": "cs50",
-//   "table": "pokemon",
-//   "rows": [
-//     {
-//       "id": 772,
-//       "dex_num": 772,
-//       "name": "Type: Null"
-//     }
-//   ],
-//   "columns": [
-//     "id",
-//     "dex_num",
-//     "name"
-//   ],
-//   "primary_keys": [
-//     "id"
-//   ],
-//   "primary_key_values": [
-//     "772"
-//   ],
-//   "units": {},
-//   "query_ms": 1.204991014674306
-// }

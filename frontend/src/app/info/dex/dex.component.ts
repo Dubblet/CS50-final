@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { PokeModel } from 'src/app/models/pokemodel';
 
 export interface DexEntry {
   game: string;
@@ -17,13 +18,20 @@ const ELEMENT_DATA: DexEntry[] = [
   templateUrl: './dex.component.html',
   styleUrls: ['./dex.component.css']
 })
-export class DexComponent implements OnInit {
+export class DexComponent {
+  @Input() model = new PokeModel();
   displayedColumns: string[] = ['game', 'entry'];
-  dataSource = ELEMENT_DATA;
+  dataSource: DexEntry[] = [];
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
+    this.dataSource = this.model.dex_entries
+      .split(';')
+      .map((gameEntry) => gameEntry.split(':'))
+      .map((game) => {
+        return {game: game[0], entry: game[1]}
+      });
   }
 
 }
