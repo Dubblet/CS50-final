@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PokeModel } from '../models/pokemodel';
+import { parseName } from '../helpers/helpers';
 
 const PokeTypeInfo: {[x: string]: Type} = {
   "Bug":      {name: "Bug", bgColor: "green", color: "white"},
@@ -43,10 +44,7 @@ export class GeneralComponent {
   constructor() { }
 
   ngOnChanges(): void {
-    this.parsedName = this.model.name
-      .replace(/[:. ]+/, "-")
-      .replace(/[.'’]/g, "")
-      .toLowerCase();
+    this.parsedName = parseName(this.model.name);
 
     this.types = this.model.types
       .split(',')

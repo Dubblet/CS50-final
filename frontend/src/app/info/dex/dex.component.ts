@@ -6,13 +6,6 @@ export interface DexEntry {
   entry: string;
 }
 
-const ELEMENT_DATA: DexEntry[] = [
-  {game: 'Sword', entry: 'Sword dex entry'},
-  {game: 'Shield', entry: 'Shield dex entry'},
-  {game: 'BD', entry: 'BD dex entry'},
-  {game: 'SP', entry: 'SP dex entry'}
-];
-
 @Component({
   selector: 'poke-dex',
   templateUrl: './dex.component.html',

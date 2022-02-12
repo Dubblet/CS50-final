@@ -9,7 +9,7 @@
                     </mat-card-title-group>
                     <mat-divider></mat-divider>
                     <mat-card-content>
-                        <poke-evolutions></poke-evolutions>
+                        <poke-evolutions [model]="model"></poke-evolutions>
                     </mat-card-content>
                 </mat-card>
 
@@ -37,6 +37,7 @@
         </mat-tab>
         <mat-tab label="Stats/Abilities">
             <ng-template matTabContent>
+                <poke-abilities></poke-abilities>
                 <poke-stats></poke-stats>
             </ng-template>
         </mat-tab>
