@@ -13,7 +13,7 @@ export class AppComponent implements OnInit{
   model = new PokeModel();
 
   ngOnInit(): void {
-    this.http.get<Array<PokeModel>>("http://127.0.0.1:8001/cs50/poke_model.json?dex_num=798&_shape=array")
+    this.http.get<Array<PokeModel>>("http://127.0.0.1:8001/cs50/poke_model.json?dex_num=1&_shape=array")
       .subscribe(response => {
         // console.log(response["rows"]);
         this.model = response[0];

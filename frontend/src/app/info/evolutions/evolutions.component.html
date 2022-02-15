@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z0" *ngIf="dataSource">
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
@@ -30,3 +30,5 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+
+<span *ngIf="!dataSource">This Pokemon does not Evolve</span>
