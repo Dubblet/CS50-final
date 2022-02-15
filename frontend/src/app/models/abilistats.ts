@@ -8,4 +8,10 @@ export class AbiliStats {
     public sp_attack: number = 65;
     public sp_defense: number = 65;
     public speed: number = 45;
+
+    constructor() {}
+}
+
+export function bst(stats: AbiliStats): number {
+    return stats.hp + stats.attack + stats.defense + stats.sp_attack + stats.sp_defense + stats.speed;
 }

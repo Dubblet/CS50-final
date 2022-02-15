@@ -37,8 +37,8 @@
         </mat-tab>
         <mat-tab label="Stats/Abilities">
             <ng-template matTabContent>
-                <poke-abilities></poke-abilities>
-                <poke-stats></poke-stats>
+                <poke-abilities [abilityStats]="abilityStats"></poke-abilities>
+                <poke-stats [abilityStats]="abilityStats"></poke-stats>
             </ng-template>
         </mat-tab>
         <mat-tab label="Level Moves">

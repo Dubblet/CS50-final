@@ -1,28 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { AbiliStats } from 'src/app/models/abilistats';
 
-export interface Ability {
+export interface pokeAbility {
   name: string;
   detail: string;
 }
-
-const ELEMENT_DATA: Ability[] = [
-  {name: 'Overgrow', detail: "When HP falls below 1/3rd of max, Grass type moves power increased by 50%"},
-  {name: 'Chlorophyll', detail: "When Sunny the Pokemon's Speed doubles"},
-
-];
 
 @Component({
   selector: 'poke-abilities',
   templateUrl: './abilities.component.html',
   styleUrls: ['./abilities.component.css']
 })
-export class AbilitiesComponent implements OnInit {
+export class AbilitiesComponent {
+  @Input() abilityStats = new AbiliStats();
+  
   displayedColumns: string[] = ['name', 'detail'];
-  dataSource = ELEMENT_DATA;
+  dataSource: pokeAbility[] = [];
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
+    this.dataSource = this.abilityStats.ability
+      .split(';')
+      .map((abilities) => abilities.split(':'))
+      .map((ability) => {
+        return {name: ability[0], detail: ability[1]}
+      });
   }
 
 }
