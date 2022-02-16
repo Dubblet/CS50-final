@@ -2,16 +2,6 @@
     <mat-tab-group>
         <mat-tab label="Info">
             <ng-template matTabContent>
-                    
-                <mat-card class="info-card mat-elevation-z0">
-                    <mat-card-title-group>
-                        <mat-card-title>Evolutions</mat-card-title>
-                    </mat-card-title-group>
-                    <mat-divider></mat-divider>
-                    <mat-card-content>
-                        <poke-evolutions [model]="model"></poke-evolutions>
-                    </mat-card-content>
-                </mat-card>
 
                 <mat-card class="info-card mat-elevation-z0">
                     <mat-card-title-group>
@@ -20,6 +10,16 @@
                     <mat-divider></mat-divider>
                     <mat-card-content>
                         <poke-bio [model]="model"></poke-bio>
+                    </mat-card-content>
+                </mat-card>
+                    
+                <mat-card class="info-card mat-elevation-z0">
+                    <mat-card-title-group>
+                        <mat-card-title>Evolutions</mat-card-title>
+                    </mat-card-title-group>
+                    <mat-divider></mat-divider>
+                    <mat-card-content>
+                        <poke-evolutions [model]="model"></poke-evolutions>
                     </mat-card-content>
                 </mat-card>
 
@@ -41,14 +41,14 @@
                 <poke-stats [abilityStats]="abilityStats"></poke-stats>
             </ng-template>
         </mat-tab>
-        <mat-tab label="Level Moves">
+        <mat-tab label="Level & Egg Moves">
             <ng-template matTabContent>
-                <poke-moves></poke-moves>
+                <poke-moves [moves]="moves"></poke-moves>
             </ng-template>
         </mat-tab>
-        <mat-tab label="TMs/Tutors">
+        <mat-tab label="TM/TR & Tutor Moves">
             <ng-template matTabContent>
-                <poke-tms></poke-tms>
+                <poke-tms [moves]="moves"></poke-tms>
             </ng-template>
         </mat-tab>
     </mat-tab-group>

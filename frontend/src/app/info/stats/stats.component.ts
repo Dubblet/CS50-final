@@ -21,7 +21,6 @@ export class StatsComponent {
   constructor() { }
 
   ngOnChanges(): void {
-    console.log(this.abilityStats)
     this.dataSource = [
       {name: 'HP', stat: this.abilityStats.hp, bar: (this.abilityStats.hp/255*100)},
       {name: 'Attack', stat: this.abilityStats.attack, bar: (this.abilityStats.attack/181*100)},
@@ -31,7 +30,6 @@ export class StatsComponent {
       {name: 'Speed', stat: this.abilityStats.speed, bar: (this.abilityStats.speed/200*100)},
       {name: 'Base Stat Total', stat: bst(this.abilityStats), bar: (bst(this.abilityStats)/720*100)}
     ];
-    console.log(this.dataSource)
   }
 
 }

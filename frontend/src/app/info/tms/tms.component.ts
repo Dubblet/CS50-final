@@ -1,24 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { MoveModel } from 'src/app/models/movemodel';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
+// public move: string = "Growl";
+// public type: string = "Normal";
+// public category: number = 0;
+// public damage: number = 0;
+// public accuracy: number = 100;
+// public description: string = "Lowers the foe(s) Attack by 1.";
+// public learn_lvl?: number;
+// public tm?: number;
+// public tr?: number;
+// public tutor?: number;
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
 
 @Component({
   selector: 'poke-tms',
@@ -26,12 +19,16 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./tms.component.css']
 })
 export class TmsComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
+  @Input() moves: MoveModel[] = [];
+
+  displayedColumns: string[] = ['move', 'type', 'category', 'damage', 'accuracy', 'description', 'tm', 'tr', 'tutor'];
+  dataSource: MoveModel[] = [];
 
   constructor() { }
 
   ngOnInit(): void {
+    this.dataSource = this.moves.filter(move => move.tm != null || move.tr != null || move.tutor != null);
+    console.log(this.dataSource);
   }
 
 }
