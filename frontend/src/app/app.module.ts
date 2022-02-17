@@ -24,6 +24,8 @@ import { EvolutionsComponent } from './info/evolutions/evolutions.component';
 import { BioComponent } from './info/bio/bio.component';
 import { DexComponent } from './info/dex/dex.component';
 import { AbilitiesComponent } from './info/abilities/abilities.component';
+import { AppRoutingModule } from './app-routing.module';
+import { PokemonComponent } from './pokemon/pokemon.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { AbilitiesComponent } from './info/abilities/abilities.component';
     EvolutionsComponent,
     BioComponent,
     DexComponent,
-    AbilitiesComponent
+    AbilitiesComponent,
+    PokemonComponent
   ],
   imports: [
     HttpClientModule,
@@ -52,7 +55,8 @@ import { AbilitiesComponent } from './info/abilities/abilities.component';
     MatTableModule,
     MatGridListModule,
     MatDividerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
