@@ -1,5 +1,5 @@
 <div class="layout">
-    <button mat-button aria-label="">
+    <button (click)="previous()" mat-button aria-label="">
         <mat-icon>navigate_before</mat-icon>
     </button>
 
@@ -15,7 +15,7 @@
         </mat-chip-list>
     </div>
 
-    <button mat-button aria-label="">
+    <button (click)="next()" mat-button aria-label="">
         <mat-icon>navigate_next</mat-icon>
     </button>
 </div>

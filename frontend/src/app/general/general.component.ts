@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PokeModel } from '../models/pokemodel';
 import { parseName } from '../helpers/helpers';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 const PokeTypeInfo: {[x: string]: Type} = {
   "Bug":      {name: "Bug", bgColor: "green", color: "white"},
@@ -41,7 +43,7 @@ export class GeneralComponent {
   types: Type[] = [];
 
 
-  constructor() { }
+  constructor(private location: Location, private router: Router) {}
 
   ngOnChanges(): void {
     this.parsedName = parseName(this.model.name);
@@ -52,4 +54,24 @@ export class GeneralComponent {
     
   }
 
+  next() {
+    let path = this.location.path().split('/');
+    let current = Number(path.pop());
+    current++;
+    if (current > 898) {
+      current = 1;
+    }
+    path.push(current.toString());
+    this.router.navigate(path);
+  }
+  previous() {
+    let path = this.location.path().split('/');
+    let current = Number(path.pop());
+    current--;
+    if (current < 1) {
+      current = 898;
+    }
+    path.push(current.toString());
+    this.router.navigate(path);
+  }
 }
