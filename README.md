@@ -16,6 +16,17 @@ This application is a database of ***Pokemon***! It has all created Pokemon up t
 
 <br>
 
+## Design Decisions
+
+### Database
+TODO
+
+### ETL
+TODO
+
+### Frontend
+TODO
+
 ### Prerequisites
 - Datasette (REST API)
 - Node.js (Tooling and development)
@@ -31,3 +42,4 @@ This application is a database of ***Pokemon***! It has all created Pokemon up t
 ## How to Run
 1. In your terminal, navigate to the folder you have the project in -> cs50-final -> database. Once in the database folder run `datasette serve --cors cs50.db`
 2. Once datasette is running, in another terminal window, navigate to the folder you have the project in -> cs50-final -> frontend. Once in the frontend folder, run `ng serve --open` This will build the app, and open a new window in your defaul browser to display it.
+
