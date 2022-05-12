@@ -18,7 +18,7 @@ import { MoveModel } from 'src/app/models/movemodel';
   templateUrl: './tms.component.html',
   styleUrls: ['./tms.component.css']
 })
-export class TmsComponent implements OnInit {
+export class TmsComponent {
   @Input() moves: MoveModel[] = [];
 
   displayedColumns: string[] = ['move', 'type', 'category', 'damage', 'accuracy', 'description', 'tm', 'tr', 'tutor'];
@@ -26,7 +26,7 @@ export class TmsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     this.dataSource = this.moves.filter(move => move.tm != null || move.tr != null || move.tutor != null);
     console.log(this.dataSource);
   }

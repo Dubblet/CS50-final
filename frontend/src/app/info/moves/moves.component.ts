@@ -6,7 +6,7 @@ import { MoveModel } from 'src/app/models/movemodel';
   templateUrl: './moves.component.html',
   styleUrls: ['./moves.component.css']
 })
-export class MovesComponent implements OnInit {
+export class MovesComponent {
   @Input() moves: MoveModel[] = [];
 
   displayedColumns: string[] = ['move', 'type', 'category', 'damage', 'accuracy', 'description', 'learn_lvl'];
@@ -14,7 +14,7 @@ export class MovesComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     this.dataSource = this.moves.filter(move => move.learn_lvl != null);
   }
 

@@ -94,3 +94,127 @@ CREATE TABLE pokedex_entries(
 	entry TEXT NOT NULL,
 	FOREIGN KEY(poke_id) REFERENCES pokemon(id)
 );
+CREATE VIEW evolution_tree AS 
+  WITH RECURSIVE cte_evolutions_forward(poke_id, evo_poke_id, evo_type, lvl, cond, extra_cond) AS (
+  SELECT poke_id, evo_poke_id, evo_type, lvl, cond, extra_cond
+  FROM evolutions 
+  UNION ALL
+  SELECT ce.poke_id, e.evo_poke_id, e.evo_type, e.lvl, e.cond, e.extra_cond 
+  FROM evolutions e
+  INNER JOIN cte_evolutions_forward ce ON ce.evo_poke_id = e.poke_id
+  )
+  SELECT * FROM cte_evolutions_forward
+  WHERE poke_id NOT IN (SELECT evo_poke_id FROM cte_evolutions_forward)
+  ORDER BY poke_id ASC
+/* evolution_tree(poke_id,evo_poke_id,evo_type,lvl,cond,extra_cond) */;
+CREATE VIEW poke_model AS
+SELECT
+  p.dex_num,
+  p.name,
+  (
+    SELECT
+      GROUP_CONCAT(name)
+    FROM
+      types
+    WHERE
+      id IN (pi.type1_id, pi.type2_id)
+  ) AS types,
+  s.name AS classification,
+  (
+    SELECT
+      GROUP_CONCAT(name)
+    FROM
+      egg_groups
+    WHERE
+      id IN (pi.egg1_id, pi.egg2_id)
+  ) AS egg_groups,
+  pi.height,
+  pi.weight,
+  pi.gender_ratio,
+  (
+    SELECT
+      GROUP_CONCAT(game || ':' || entry, ';')
+    FROM
+      pokedex_entries
+    WHERE
+      poke_id = p.id
+  ) AS dex_entries,
+  (
+    SELECT
+      'base_form:' || p2.name || '|' || 'dex_num:' || p2.dex_num || ';' || GROUP_CONCAT(
+        'evo_form:' || p1.name || '|' || 'dex_num:' || p1.dex_num || '|' || TRIM(
+          CASE
+            WHEN evo_type IS NOT NULL THEN 'evo_type:' || evo_type || ','
+            ELSE ''
+          END || CASE
+            WHEN lvl IS NOT NULL THEN 'lvl:' || lvl || ','
+            ELSE ''
+          END || CASE
+            WHEN cond IS NOT NULL THEN 'cond:' || cond || ','
+            ELSE ''
+          END || CASE
+            WHEN extra_cond IS NOT NULL
+            AND extra_cond <> '' THEN 'extra_cond:' || extra_cond || ','
+            ELSE ''
+          END,
+          ','
+        ),
+        ';'
+      ) AS evo_data
+    FROM
+      evolution_tree
+      JOIN pokemon p1 ON p1.id = evolution_tree.evo_poke_id
+      JOIN pokemon p2 ON p2.id = evolution_tree.poke_id
+    WHERE
+      poke_id IN (
+        SELECT
+          poke_id
+        FROM
+          evolution_tree
+        WHERE
+          poke_id = p.id
+          OR evo_poke_id = p.id
+      )
+  ) AS evo_data
+FROM
+  pokemon p
+  JOIN pokemon_info pi ON p.id = pi.poke_id
+  JOIN species s ON pi.species_id = s.id
+/* poke_model(dex_num,name,types,classification,egg_groups,height,weight,gender_ratio,dex_entries,evo_data) */;
+CREATE VIEW abili_stats AS
+SELECT
+  p.dex_num,
+  p.name,
+  GROUP_CONCAT(a.name || ':' || a.description, ';')
+	AS ability,
+  ps.hp,
+  ps.attack,
+  ps.defense,
+  ps.sp_attack,
+  ps.sp_defense,
+  ps.speed
+FROM
+  pokemon p
+  JOIN pokemon_abilities pa ON p.id = pa.poke_id
+  JOIN abilities a ON pa.ability_id = a.id
+  JOIN pokemon_stats ps ON p.id = ps.poke_id
+GROUP BY p.dex_num
+/* abili_stats(dex_num,name,ability,hp,attack,defense,sp_attack,sp_defense,speed) */;
+CREATE VIEW move_model AS
+SELECT
+  p.dex_num,
+  m.name AS move,
+  t.name AS type,
+  m.category,
+  m.damage,
+  m.accuracy,
+  m.description,
+  pm.learn_lvl,
+  pm.tm,
+  pm.tr,
+  pm.tutor
+FROM moves m
+  JOIN pokemon_moves pm ON m.id = pm.move_id
+  JOIN pokemon p ON pm.poke_id = p.id
+  JOIN types t ON m.type_id = t.id
+/* move_model(dex_num,move,type,category,damage,accuracy,description,learn_lvl,tm,tr,tutor) */;
